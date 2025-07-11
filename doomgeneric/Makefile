@@ -15,7 +15,8 @@ endif
 ifeq ($(DEBUG),0)
 CFLAGS+=-Oz -ffast-math -flto
 else
-CFLAGS+=-g
+# TODO: why this lags so much without -O1?
+CFLAGS+=-g -O1
 endif
 
 CC=clang --target=wasm32 --sysroot=../../../wasmlite/libc -nodefaultlibs
