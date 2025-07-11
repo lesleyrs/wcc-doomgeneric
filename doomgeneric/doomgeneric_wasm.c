@@ -155,8 +155,8 @@ bool onkeyup(void* userData, int keyCode, int modifiers) {
 void DG_Init()
 {
     JS_createCanvas(640, 400);
-    JS_addKeyDownEventListener(false, NULL, onkeydown);
-    JS_addKeyUpEventListener(false, NULL, onkeyup);
+    JS_addKeyDownEventListener(NULL, onkeydown);
+    JS_addKeyUpEventListener(NULL, onkeyup);
 }
 
 void DG_DrawFrame()
