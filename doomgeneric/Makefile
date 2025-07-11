@@ -14,15 +14,17 @@ endif
 
 ifeq ($(DEBUG),0)
 CFLAGS+=-Oz -ffast-math -flto
+LIBS+=-lc
 else
 # TODO: why this lags so much without -O1?
 CFLAGS+=-g -O1
+LIBS+=-lc-dbg
 endif
 
 CC=clang --target=wasm32 --sysroot=../../../wasmlite/libc -nodefaultlibs
 LDFLAGS+=-Wl,--gc-sections -Wl,--allow-undefined -Wl,--export-table
 CFLAGS+=-std=c99 -ggdb3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
-LIBS+=-lm -lc
+LIBS+=-lm
 
 # subdirectory for objects
 OBJDIR=build
@@ -44,8 +46,7 @@ $(OUTPUT):	$(OBJS)
 	$(VB)$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) \
 	-o $(OUTPUT) $(LIBS) -Wl,-Map,$(OUTPUT).map
 ifeq ($(DEBUG),0)
-	wasm-strip $@
-	wasm-opt --enable-sign-ext $@ -o $@ -Oz
+	wasm-strip $@ && wasm-opt $@ -o $@ -Oz --enable-sign-ext
 else
 	../../../emscripten/tools/wasm-sourcemap.py $@ -w $@ -p $(CURDIR) -s -u ./$@.map -o $@.map --dwarfdump=/usr/bin/llvm-dwarfdump
 endif
