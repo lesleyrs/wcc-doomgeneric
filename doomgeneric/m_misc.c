@@ -17,7 +17,7 @@
 //      Miscellaneous.
 //
 
-
+#include "str.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,8 +32,8 @@
 #include <direct.h>
 #endif
 #else
-#include <sys/stat.h>
-#include <sys/types.h>
+// #include <sys/stat.h>
+// #include <sys/types.h>
 #endif
 
 #include "doomtype.h"
@@ -57,7 +57,7 @@ void M_MakeDirectory(char *path)
 #ifdef _WIN32
     mkdir(path);
 #else
-    mkdir(path, 0755);
+    // mkdir(path, 0755);
 #endif
 }
 

@@ -17,6 +17,7 @@
 //	generation of lookups, caching, retrieval by name.
 //
 
+#include "str.h"
 #include <stdio.h>
 
 #include "deh_main.h"

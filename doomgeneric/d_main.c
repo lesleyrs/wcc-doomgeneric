@@ -73,6 +73,7 @@
 #include "statdump.h"
 
 #include "d_main.h"
+#include "str.h"
 
 //
 // D-DoomLoop()

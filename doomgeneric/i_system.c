@@ -26,6 +26,8 @@
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#elif defined(__wasm) && !defined(__EMSCRIPTEN)
+#include <js/glue.h>
 #else
 #include <unistd.h>
 #endif
@@ -50,6 +52,7 @@
 
 #include "w_wad.h"
 #include "z_zone.h"
+#include "str.h"
 
 #ifdef __MACOSX__
 #include <CoreFoundation/CFUserNotification.h>
@@ -264,7 +267,7 @@ void I_Quit (void)
 #endif
 }
 
-#if !defined(_WIN32) && !defined(__MACOSX__) && !defined(__DJGPP__)
+#if !defined(_WIN32) && !defined(__MACOSX__) && !defined(__DJGPP__) && (!defined(__wasm) || defined(__EMSCRIPTEN))
 #define ZENITY_BINARY "/usr/bin/zenity"
 
 // returns non-zero if zenity is available
@@ -454,6 +457,11 @@ void I_Error (char *error, ...)
         exit(-1);
     }
 
+#elif defined(__wasm) && !defined(__EMSCRIPTEN)
+    {
+        JS_alert(msgbuf);
+        exit(-1);
+    }
 #else
     {
         ZenityErrorBox(msgbuf);

@@ -32,7 +32,7 @@
 
 #else
 
-#include <strings.h>
+// #include <strings.h>
 
 #endif
 
@@ -69,6 +69,9 @@
 typedef bool boolean;
 
 #else
+
+#undef false
+#undef true
 
 typedef enum 
 {

@@ -31,14 +31,15 @@
 #include "m_misc.h"
 #include "w_wad.h"
 #include "z_zone.h"
+#include "str.h"
 
 static const iwad_t iwads[] =
 {
-    { "doom2.wad",    doom2,     commercial, "Doom II" },
+    { "DOOM2.WAD",    doom2,     commercial, "Doom II" },
     { "plutonia.wad", pack_plut, commercial, "Final Doom: Plutonia Experiment" },
     { "tnt.wad",      pack_tnt,  commercial, "Final Doom: TNT: Evilution" },
-    { "doom.wad",     doom,      retail,     "Doom" },
-    { "doom1.wad",    doom,      shareware,  "Doom Shareware" },
+    { "DOOM.WAD",     doom,      retail,     "Doom" },
+    { "DOOM1.WAD",    doom,      shareware,  "Doom Shareware" },
     { "chex.wad",     pack_chex, shareware,  "Chex Quest" },
     { "hacx.wad",     pack_hacx, commercial, "Hacx" },
     { "freedm.wad",   doom2,     commercial, "FreeDM" },

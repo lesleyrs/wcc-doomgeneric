@@ -9,4 +9,7 @@
 Debug/
 Release/
 Build/
-doomgeneric
+/doomgeneric/doomgeneric
+/doomgeneric/doomgeneric.map
+/doomgeneric/index.html
+/doomgeneric/*.wasm*
