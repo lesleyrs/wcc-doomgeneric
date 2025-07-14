@@ -16,13 +16,13 @@ ifeq ($(DEBUG),0)
 CFLAGS+=-Oz -ffast-math -flto
 LIBS+=-lc
 else
-# TODO: why this lags so much without -O1?
-CFLAGS+=-g -O1
+# TODO: lags on chrome due to a browser timing bug, turning on profiler fixes it
+CFLAGS+=-g -O0
 LIBS+=-lc-dbg
 endif
 
 CC=clang --target=wasm32 --sysroot=../../../wasmlite/libc -nodefaultlibs
-LDFLAGS+=-Wl,--gc-sections -Wl,--allow-undefined -Wl,--export-table
+LDFLAGS+=-Wl,--gc-sections -Wl,--export-table
 CFLAGS+=-std=c99 -ggdb3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
 LIBS+=-lm
 

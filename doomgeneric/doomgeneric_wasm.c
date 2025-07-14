@@ -7,7 +7,7 @@
 #include <string.h>
 
 #include <js/glue.h>
-#include <js/key_codes.h>
+#include <js/dom_pk_codes.h>
 
 #include "str.h"
 
@@ -43,75 +43,77 @@ int strcasecmp(const char *_l, const char *_r)
 	return tolower(*l) - tolower(*r);
 }
 
-static unsigned char convertToDoomKey(unsigned int key)
-{
+static unsigned char convertToDoomKey(unsigned int key) {
   switch (key)
     {
-    case DOM_VK_RETURN:
+    case DOM_PK_ENTER:
       key = KEY_ENTER;
       break;
-    case DOM_VK_ESCAPE:
+    case DOM_PK_ESCAPE:
       key = KEY_ESCAPE;
       break;
-    case DOM_VK_LEFT:
+    case DOM_PK_ARROW_LEFT:
       key = KEY_LEFTARROW;
       break;
-    case DOM_VK_RIGHT:
+    case DOM_PK_ARROW_RIGHT:
       key = KEY_RIGHTARROW;
       break;
-    case DOM_VK_UP:
+    case DOM_PK_ARROW_UP:
       key = KEY_UPARROW;
       break;
-    case DOM_VK_DOWN:
+    case DOM_PK_ARROW_DOWN:
       key = KEY_DOWNARROW;
       break;
-    case DOM_VK_CONTROL:
+    case DOM_PK_CONTROL_LEFT:
+    case DOM_PK_CONTROL_RIGHT:
       key = KEY_FIRE;
       break;
-    case DOM_VK_SPACE:
+    case DOM_PK_SPACE:
       key = KEY_USE;
       break;
-    case DOM_VK_SHIFT:
+    case DOM_PK_SHIFT_LEFT:
+    case DOM_PK_SHIFT_RIGHT:
       key = KEY_RSHIFT;
       break;
-    case DOM_VK_ALT:
+    case DOM_PK_ALT_LEFT:
+    case DOM_PK_ALT_RIGHT:
       key = KEY_LALT;
       break;
-    case DOM_VK_F2:
+    case DOM_PK_F2:
       key = KEY_F2;
       break;
-    case DOM_VK_F3:
+    case DOM_PK_F3:
       key = KEY_F3;
       break;
-    case DOM_VK_F4:
+    case DOM_PK_F4:
       key = KEY_F4;
       break;
-    case DOM_VK_F5:
+    case DOM_PK_F5:
       key = KEY_F5;
       break;
-    case DOM_VK_F6:
+    case DOM_PK_F6:
       key = KEY_F6;
       break;
-    case DOM_VK_F7:
+    case DOM_PK_F7:
       key = KEY_F7;
       break;
-    case DOM_VK_F8:
+    case DOM_PK_F8:
       key = KEY_F8;
       break;
-    case DOM_VK_F9:
+    case DOM_PK_F9:
       key = KEY_F9;
       break;
-    case DOM_VK_F10:
+    case DOM_PK_F10:
       key = KEY_F10;
       break;
-    case DOM_VK_F11:
+    case DOM_PK_F11:
       key = KEY_F11;
       break;
-    case DOM_VK_EQUALS:
-    case DOM_VK_PLUS:
+    case DOM_PK_EQUAL:
+    // case DOM_PK_PLUS:
       key = KEY_EQUALS;
       break;
-    case DOM_VK_HYPHEN_MINUS:
+    case DOM_PK_MINUS:
       key = KEY_MINUS;
       break;
     default:
@@ -135,18 +137,18 @@ static void addKeyToQueue(int pressed, unsigned int keyCode)
 
 uint32_t canvas[DOOMGENERIC_RESX * DOOMGENERIC_RESY];
 
-bool onkeydown(void* userData, int keyCode, int modifiers) {
+bool onkeydown(void* userData, int key, int code, int modifiers) {
     (void)userData,(void)modifiers;
-    addKeyToQueue(1, keyCode);
-    if (keyCode == DOM_VK_F12) {
+    addKeyToQueue(1, code);
+    if (code == DOM_PK_F12) {
         return 0;
     }
     return 1;
 }
-bool onkeyup(void* userData, int keyCode, int modifiers) {
+bool onkeyup(void* userData, int key, int code, int modifiers) {
     (void)userData,(void)modifiers;
-    addKeyToQueue(0, keyCode);
-    if (keyCode == DOM_VK_F12) {
+    addKeyToQueue(0, code);
+    if (code == DOM_PK_F12) {
         return 0;
     }
     return 1;
