@@ -22,7 +22,7 @@ LIBS+=-lc-dbg
 endif
 
 CC=clang --target=wasm32 --sysroot=../../../wasmlite/libc -nodefaultlibs
-LDFLAGS+=-Wl,--gc-sections -Wl,--export-table
+LDFLAGS+=-Wl,--export-table
 CFLAGS+=-std=c99 -ggdb3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
 LIBS+=-lm
 

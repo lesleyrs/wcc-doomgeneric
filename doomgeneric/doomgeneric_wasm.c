@@ -43,8 +43,8 @@ int strcasecmp(const char *_l, const char *_r)
 	return tolower(*l) - tolower(*r);
 }
 
-static unsigned char convertToDoomKey(unsigned int key) {
-  switch (key)
+static unsigned char convertToDoomKey(int key, int code) {
+  switch (code)
     {
     case DOM_PK_ENTER:
       key = KEY_ENTER;
@@ -124,11 +124,11 @@ static unsigned char convertToDoomKey(unsigned int key) {
   return key;
 }
 
-static void addKeyToQueue(int pressed, unsigned int keyCode)
+static void addKeyToQueue(int pressed, int key, int code)
 {
-  unsigned char key = convertToDoomKey(keyCode);
+  unsigned char dKey = convertToDoomKey(key, code);
 
-  unsigned short keyData = (pressed << 8) | key;
+  unsigned short keyData = (pressed << 8) | dKey;
 
   s_KeyQueue[s_KeyQueueWriteIndex] = keyData;
   s_KeyQueueWriteIndex++;
@@ -139,7 +139,7 @@ uint32_t canvas[DOOMGENERIC_RESX * DOOMGENERIC_RESY];
 
 bool onkeydown(void* userData, int key, int code, int modifiers) {
     (void)userData,(void)modifiers;
-    addKeyToQueue(1, code);
+    addKeyToQueue(1, key, code);
     if (code == DOM_PK_F12) {
         return 0;
     }
@@ -147,7 +147,7 @@ bool onkeydown(void* userData, int key, int code, int modifiers) {
 }
 bool onkeyup(void* userData, int key, int code, int modifiers) {
     (void)userData,(void)modifiers;
-    addKeyToQueue(0, code);
+    addKeyToQueue(0, key, code);
     if (code == DOM_PK_F12) {
         return 0;
     }
