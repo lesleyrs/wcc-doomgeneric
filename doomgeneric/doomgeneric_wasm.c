@@ -137,17 +137,9 @@ static void addKeyToQueue(int pressed, int key, int code)
 
 uint32_t canvas[DOOMGENERIC_RESX * DOOMGENERIC_RESY];
 
-bool onkeydown(void* userData, int key, int code, int modifiers) {
+bool onkey(void* userData, bool pressed, int key, int code, int modifiers) {
     (void)userData,(void)modifiers;
-    addKeyToQueue(1, key, code);
-    if (code == DOM_PK_F12) {
-        return 0;
-    }
-    return 1;
-}
-bool onkeyup(void* userData, int key, int code, int modifiers) {
-    (void)userData,(void)modifiers;
-    addKeyToQueue(0, key, code);
+    addKeyToQueue(pressed, key, code);
     if (code == DOM_PK_F12) {
         return 0;
     }
@@ -157,8 +149,7 @@ bool onkeyup(void* userData, int key, int code, int modifiers) {
 void DG_Init()
 {
     JS_createCanvas(640, 400);
-    JS_addKeyDownEventListener(NULL, onkeydown);
-    JS_addKeyUpEventListener(NULL, onkeyup);
+    JS_addKeyEventListener(NULL, onkey);
 }
 
 void DG_DrawFrame()
