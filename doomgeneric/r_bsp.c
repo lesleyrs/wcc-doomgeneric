@@ -313,18 +313,21 @@ void R_AddLine (seg_t*	line)
     backsector = line->backsector;
 
     // Single sided line?
-    if (!backsector)
-	goto clipsolid;		
+    if (!backsector) {
+    	goto clipsolid;		
+    }
 
     // Closed door.
     if (backsector->ceilingheight <= frontsector->floorheight
-	|| backsector->floorheight >= frontsector->ceilingheight)
-	goto clipsolid;		
+	|| backsector->floorheight >= frontsector->ceilingheight) {
+    	goto clipsolid;		
+    }
 
     // Window.
     if (backsector->ceilingheight != frontsector->ceilingheight
-	|| backsector->floorheight != frontsector->floorheight)
-	goto clippass;	
+	|| backsector->floorheight != frontsector->floorheight) {
+    	goto clippass;	
+    }
 		
     // Reject empty lines used for triggers
     //  and special events.

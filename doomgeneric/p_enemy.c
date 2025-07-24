@@ -600,11 +600,13 @@ void A_Look (mobj_t* actor)
 
 	if ( actor->flags & MF_AMBUSH )
 	{
-	    if (P_CheckSight (actor, actor->target))
-		goto seeyou;
+	    if (P_CheckSight (actor, actor->target)) {
+    		goto seeyou;
+	    }
 	}
-	else
+	else {
 	    goto seeyou;
+    	}
     }
 	
 	
@@ -726,8 +728,9 @@ void A_Chase (mobj_t*	actor)
 	    goto nomissile;
 	}
 	
-	if (!P_CheckMissileRange (actor))
+	if (!P_CheckMissileRange (actor)) {
 	    goto nomissile;
+	}
 	
 	P_SetMobjState (actor, actor->info->missilestate);
 	actor->flags |= MF_JUSTATTACKED;

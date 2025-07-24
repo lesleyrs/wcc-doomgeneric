@@ -71,7 +71,7 @@ boolean M_FileExists(char *filename)
 
     if (fstream != NULL)
     {
-        fclose(fstream);
+        // fclose(fstream);
         return true;
     }
     else

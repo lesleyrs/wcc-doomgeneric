@@ -11,20 +11,13 @@ else
 	VB=@
 endif
 
+LIBC=../../../wasmlite/libc
+CC=../../../xcc/wcc
 
-ifeq ($(DEBUG),0)
-CFLAGS+=-Oz -ffast-math -flto
-LIBS+=-lc
-else
-# TODO: lags on chrome due to a browser timing bug, turning on profiler fixes it
-CFLAGS+=-g -O0
-LIBS+=-lc-dbg
-endif
-
-CC=clang --target=wasm32 --sysroot=../../../wasmlite/libc -nodefaultlibs
-LDFLAGS+=-Wl,--export-table
-CFLAGS+=-std=c99 -ggdb3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
-LIBS+=-lm
+CFLAGS+=-isystem=$(LIBC)/include -Dgoto=void*
+LDFLAGS+=-L$(LIBC)/lib --stack-size=640000 -Wl,--allow-undefined
+# LDFLAGS+=-Wl,--export=table
+CFLAGS+=-std=c99 -ggdb3 -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
 
 # subdirectory for objects
 OBJDIR=build
@@ -43,13 +36,10 @@ clean:
 
 $(OUTPUT):	$(OBJS)
 	@echo [Linking $@]
-	$(VB)$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) \
-	-o $(OUTPUT) $(LIBS) -Wl,-Map,$(OUTPUT).map
-ifeq ($(DEBUG),0)
-	wasm-strip $@ && wasm-opt $@ -o $@ -Oz --enable-sign-ext
-else
-	../../../emscripten/tools/wasm-sourcemap.py $@ -w $@ -p $(CURDIR) -s -u ./$@.map -o $@.map --dwarfdump=/usr/bin/llvm-dwarfdump
-endif
+	$(VB)$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(OUTPUT) $(LIBS)
+	wasm-opt $@ -o $@ -Oz --enable-sign-ext --enable-bulk-memory --enable-mutable-globals
+	# wasm-strip $@ && wasm-opt $@ -o $@ -Oz --enable-sign-ext --enable-bulk-memory --enable-mutable-globals
+	# ../../../emscripten/tools/wasm-sourcemap.py $@ -w $@ -p $(CURDIR) -s -u ./$@.map -o $@.map --dwarfdump=/usr/bin/llvm-dwarfdump
 	# @echo [Size]
 	# -$(CROSS_COMPILE)size $(OUTPUT)
 

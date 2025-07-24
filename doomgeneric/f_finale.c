@@ -378,8 +378,9 @@ void F_CastTicker (void)
     else
     {
 	// just advance to next state in animation
-	if (caststate == &states[S_PLAY_ATK1])
+	if (caststate == &states[S_PLAY_ATK1]) {
 	    goto stopattack;	// Oh, gross hack!
+	}
 	st = caststate->nextstate;
 	caststate = &states[st];
 	castframes++;

@@ -865,10 +865,10 @@ void V_DrawMouseSpeedBox(int speed)
     // If the mouse is turned off or acceleration is turned off, don't
     // draw the box at all.
 
-    if (!usemouse || fabs(mouse_acceleration - 1) < 0.01)
-    {
-        return;
-    }
+    // if (!usemouse || fabs(mouse_acceleration - 1) < 0.01)
+    // {
+    //     return;
+    // }
 
     // Calculate box position
 

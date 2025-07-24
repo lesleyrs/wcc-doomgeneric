@@ -166,7 +166,7 @@ void DG_SleepMs(uint32_t ms)
     JS_setTimeout(ms);
 }
 
-uint32_t DG_GetTicksMs()
+uint32_t DG_GetTicksMs(void)
 {
     return JS_performanceNow();
 }

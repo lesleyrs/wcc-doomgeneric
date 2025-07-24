@@ -682,14 +682,17 @@ boolean PTR_SlideTraverse (intercept_t* in)
     // set openrange, opentop, openbottom
     P_LineOpening (li);
     
-    if (openrange < slidemo->height)
-	goto isblocking;		// doesn't fit
+    if (openrange < slidemo->height) {
+    	goto isblocking;		// doesn't fit
+    }
 		
-    if (opentop - slidemo->z < slidemo->height)
-	goto isblocking;		// mobj is too high
+    if (opentop - slidemo->z < slidemo->height) {
+    	goto isblocking;		// mobj is too high
+    }
 
-    if (openbottom - slidemo->z > 24*FRACUNIT )
-	goto isblocking;		// too big a step up
+    if (openbottom - slidemo->z > 24*FRACUNIT ) {
+    	goto isblocking;		// too big a step up
+    }
 
     // this line doesn't block movement
     return true;		
@@ -733,8 +736,9 @@ void P_SlideMove (mobj_t* mo)
     hitcount = 0;
     
   retry:
-    if (++hitcount == 3)
-	goto stairstep;		// don't loop forever
+    if (++hitcount == 3) {
+    	goto stairstep;		// don't loop forever
+    }
 
     
     // trace along the three leading corners
@@ -786,8 +790,9 @@ void P_SlideMove (mobj_t* mo)
 	newx = FixedMul (mo->momx, bestslidefrac);
 	newy = FixedMul (mo->momy, bestslidefrac);
 	
-	if (!P_TryMove (mo, mo->x+newx, mo->y+newy))
+	if (!P_TryMove (mo, mo->x+newx, mo->y+newy)) {
 	    goto stairstep;
+    	}
     }
     
     // Now continue along the wall.
@@ -948,8 +953,9 @@ boolean PTR_ShootTraverse (intercept_t* in)
 	if (li->special)
 	    P_ShootSpecialLine (shootthing, li);
 
-	if ( !(li->flags & ML_TWOSIDED) )
+	if ( !(li->flags & ML_TWOSIDED) ) {
 	    goto hitline;
+	}
 	
 	// crosses a two sided line
 	P_LineOpening (li);
@@ -962,27 +968,31 @@ boolean PTR_ShootTraverse (intercept_t* in)
         if (li->backsector == NULL)
         {
             slope = FixedDiv (openbottom - shootz , dist);
-            if (slope > aimslope)
+            if (slope > aimslope) {
                 goto hitline;
+            }
 
             slope = FixedDiv (opentop - shootz , dist);
-            if (slope < aimslope)
+            if (slope < aimslope) {
                 goto hitline;
+            }
         }
         else
         {
             if (li->frontsector->floorheight != li->backsector->floorheight)
             {
                 slope = FixedDiv (openbottom - shootz , dist);
-                if (slope > aimslope)
+                if (slope > aimslope) {
                     goto hitline;
+                }
             }
 
             if (li->frontsector->ceilingheight != li->backsector->ceilingheight)
             {
                 slope = FixedDiv (opentop - shootz , dist);
-                if (slope < aimslope)
+                if (slope < aimslope) {
                     goto hitline;
+                }
             }
         }
 
