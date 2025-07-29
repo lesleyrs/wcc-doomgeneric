@@ -157,8 +157,8 @@ static unsigned int ParseVorbisTime(unsigned int samplerate_hz, char *value)
 
         if (*p == '.')
         {
-            return result * samplerate_hz
-	         + (unsigned int) (atof(p) * samplerate_hz);
+          //   return result * samplerate_hz
+	         // + (unsigned int) (atof(p) * samplerate_hz);
         }
     }
 

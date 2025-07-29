@@ -15,8 +15,8 @@ LIBC=../../../wasmlite/libc
 CC=../../../xcc/wcc
 
 CFLAGS+=-isystem=$(LIBC)/include -Dgoto=void*
-LDFLAGS+=-L$(LIBC)/lib --stack-size=640000 -Wl,--allow-undefined
-# LDFLAGS+=-Wl,--export=table
+LDFLAGS+=-L$(LIBC)/lib --stack-size=640000
+LDFLAGS+=-Wl,--export-table
 CFLAGS+=-std=c99 -ggdb3 -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
 
 # subdirectory for objects
